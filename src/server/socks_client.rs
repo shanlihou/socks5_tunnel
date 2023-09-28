@@ -15,7 +15,6 @@ pub async fn connect() -> CommonRet<(OwnedReadHalf, OwnedWriteHalf)> {
     stream.write(&pack).await?;
     let buf = &mut [0; 2];
     stream.read(buf).await?;
-    println!("buf: {:?}", buf);
 
     let dst_addr: SocketAddrV4 = CONFIG.remote_host.parse()?;
     let mut pack = vec![0x05, 0x01, 0x00, 0x01];
@@ -25,7 +24,6 @@ pub async fn connect() -> CommonRet<(OwnedReadHalf, OwnedWriteHalf)> {
     stream.write(&pack).await?;
     let buf = &mut [0; 10];
     stream.read(buf).await?;
-    println!("buf: {:?}", buf);
 
     Ok(stream.into_split())
 }
