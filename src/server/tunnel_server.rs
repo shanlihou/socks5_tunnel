@@ -3,6 +3,7 @@ use tokio::io::{AsyncWriteExt, AsyncReadExt};
 
 use crate::server::socks_client;
 use crate::types::alias::CommonRet;
+use crate::common::config::CONFIG;
 
 
 async fn process_socks_read(
@@ -51,8 +52,8 @@ async fn process_connection(
 
 pub async fn run() 
 {
-    let listener = tokio::net::TcpListener::bind(&"0.0.0.0:9530").await.unwrap();
-    log::info!("game server start: success");
+    let listener = tokio::net::TcpListener::bind(&CONFIG.local_host).await.unwrap();
+    log::info!("game server start: success {}", CONFIG.local_host);
 
     loop {
         let (tcp_reader, tcp_writer) = if let Ok((socket, _)) = listener.accept().await {
